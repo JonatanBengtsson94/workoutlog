@@ -1,13 +1,15 @@
 require("dotenv").config()
 const express = require("express")
+const db = require("./db")
 
 const app = express()
 
 app.use(express.json())
 
 // Get exercises
-app.get("/api/v1/exercises", (req, res) => {
-    res.status(200).json({})
+app.get("/api/v1/exercises", async (req, res) => {
+    const result = await db.query("SELECT * FROM exercises")
+    console.log(result)
 })
 
 // Get one exericise
