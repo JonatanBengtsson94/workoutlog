@@ -1,7 +1,11 @@
+import Header from "../components/Header"
+import WorkoutsList from "../components/WorkoutsList"
+
 function Home() {
     return (
-        <div>
-            Home
+        <div className="container">
+            <Header />
+            <WorkoutsList />
         </div>
     )
 }
