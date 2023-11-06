@@ -27,9 +27,20 @@ app.get("/api/v1/exercises", async (req, res) => {
 })
 
 // Get one exericise
-app.get("/api/v1/exercises/:id", (req, res) => {
-    res.status(200).json({})
-    console.log(req.params.id)
+app.get("/api/v1/exercises/:id", async (req, res) => {
+    try {
+        const results = await db.query("SELECT * FROM exercises WHERE exercise_id = $1", [req.params.id])
+        console.log(results)
+        res.status(200).json({
+            status: "sucess",
+            exercise: results.rows[0]
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            status: "failure"
+        })
+    }
 })
 
 // Create new user
