@@ -74,15 +74,10 @@ app.post("/api/v1/sets/", async (req, res) => {
     }
 })
 
+// Get workout
+// Create workout
 // Create new user
-app.post("/api/v1/users", (req, res) => {
-    console.log(req.body)
-})
-
 // Get user
-app.get("/api/v1/users/:id", (req, res) => {
-    console.log(req.params.id)
-})
 
 const port = process.env.PORT
 app.listen(port, () => {
