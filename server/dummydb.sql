@@ -61,7 +61,9 @@ ALTER SEQUENCE public.exercises_excercise_id_seq OWNED BY public.exercises.exerc
 CREATE TABLE public.sets (
     set_id integer NOT NULL,
     reps integer,
-    exercise_id integer
+    exercise_id integer,
+    workout_id integer,
+    weight integer
 );
 
 
@@ -124,6 +126,40 @@ ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
 
 
 --
+-- Name: workouts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.workouts (
+    workout_id integer NOT NULL,
+    workout_date date
+);
+
+
+ALTER TABLE public.workouts OWNER TO postgres;
+
+--
+-- Name: workouts_workout_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.workouts_workout_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.workouts_workout_id_seq OWNER TO postgres;
+
+--
+-- Name: workouts_workout_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.workouts_workout_id_seq OWNED BY public.workouts.workout_id;
+
+
+--
 -- Name: exercises exercise_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -145,6 +181,13 @@ ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.u
 
 
 --
+-- Name: workouts workout_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.workouts ALTER COLUMN workout_id SET DEFAULT nextval('public.workouts_workout_id_seq'::regclass);
+
+
+--
 -- Data for Name: exercises; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -158,8 +201,8 @@ COPY public.exercises (exercise_id, name) FROM stdin;
 -- Data for Name: sets; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.sets (set_id, reps, exercise_id) FROM stdin;
-1	12	1
+COPY public.sets (set_id, reps, exercise_id, workout_id, weight) FROM stdin;
+1	12	1	\N	\N
 \.
 
 
@@ -168,6 +211,14 @@ COPY public.sets (set_id, reps, exercise_id) FROM stdin;
 --
 
 COPY public.users (user_id, username) FROM stdin;
+\.
+
+
+--
+-- Data for Name: workouts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.workouts (workout_id, workout_date) FROM stdin;
 \.
 
 
@@ -190,6 +241,13 @@ SELECT pg_catalog.setval('public.sets_set_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('public.users_user_id_seq', 1, false);
+
+
+--
+-- Name: workouts_workout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.workouts_workout_id_seq', 1, false);
 
 
 --
@@ -217,11 +275,27 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: workouts workouts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.workouts
+    ADD CONSTRAINT workouts_pkey PRIMARY KEY (workout_id);
+
+
+--
 -- Name: sets sets_exercise_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.sets
     ADD CONSTRAINT sets_exercise_id_fkey FOREIGN KEY (exercise_id) REFERENCES public.exercises(exercise_id);
+
+
+--
+-- Name: sets sets_workout_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sets
+    ADD CONSTRAINT sets_workout_id_fkey FOREIGN KEY (workout_id) REFERENCES public.workouts(workout_id);
 
 
 --

@@ -22,7 +22,6 @@ app.get("/api/v1/exercises", async (req, res) => {
             status: "failure"
         })
     }
-
 })
 
 // Get one exericise
@@ -59,13 +58,55 @@ app.get("/api/v1/sets", async (req, res) => {
     }
 })
 
+// Get sets of workout
+app.get("/api/v1/sets/:id", async (req, res) => {
+    try {
+        const results = await db.query(
+            "SELECT * FROM sets WHERE workout_id = $1", [req.params.id])
+        res.status(200).json({
+            status: "sucess",
+            results: results.rows.length,
+            data: {
+                sets: results.rows
+            }
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            status: "failure"
+        })
+    }
+})
+
 // Create new set
 app.post("/api/v1/sets/", async (req, res) => {
     try {
-        const result = await db.query("INSERT INTO sets(reps, exercise_id) VALUES($1, $2) returning *", [req.body.reps, req.body.exercise_id])
+        const results = await db.query(
+            "INSERT INTO sets(reps, exercise_id, workout_id, weight) VALUES($1, $2, $3, $4) returning *",
+            [req.body.reps, req.body.exercise_id, req.body.workout_id, req.body.weight]
+        )
         res.status(201).json({
             status: "sucess",
             exercise: results.rows[0]
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            status: "failure"
+        })
+    }
+})
+
+// Get all workouts
+app.get("/api/v1/workouts", async (req, res) => {
+    try {
+        const results = await db.query("SELECT * FROM workouts")
+        res.status(200).json({
+            status: "sucess",
+            results: results.rows.length,
+            data: {
+                exercises: results.rows
+            }
         })
     } catch (err) {
         res.status(500).json({
@@ -74,7 +115,22 @@ app.post("/api/v1/sets/", async (req, res) => {
     }
 })
 
-// Get workout
+// Get one workout
+app.get("/api/v1/workouts/:id", async (req, res) => {
+    try {
+        const results = await db.query("SELECT * FROM workouts WHERE workout_id = $1", [req.params.id])
+        res.status(200).json({
+            status: "sucess",
+            exercise: results.rows[0]
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            status: "failure"
+        })
+    }
+})
+
 // Create workout
 // Create new user
 // Get user
