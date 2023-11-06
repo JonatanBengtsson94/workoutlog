@@ -10,7 +10,6 @@ app.use(express.json())
 app.get("/api/v1/exercises", async (req, res) => {
     try {
         const results = await db.query("SELECT * FROM exercises")
-        console.log(results)
         res.status(200).json({
             status: "sucess",
             results: results.rows.length,
@@ -30,13 +29,45 @@ app.get("/api/v1/exercises", async (req, res) => {
 app.get("/api/v1/exercises/:id", async (req, res) => {
     try {
         const results = await db.query("SELECT * FROM exercises WHERE exercise_id = $1", [req.params.id])
-        console.log(results)
         res.status(200).json({
             status: "sucess",
             exercise: results.rows[0]
         })
     } catch (err) {
         console.log(err)
+        res.status(500).json({
+            status: "failure"
+        })
+    }
+})
+
+// Get sets
+app.get("/api/v1/sets", async (req, res) => {
+    try {
+        const results = await db.query("SELECT * FROM sets")
+        res.status(200).json({
+            status: "sucess",
+            results: results.rows.length,
+            data: {
+                sets: results.rows
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: "failure"
+        })
+    }
+})
+
+// Create new set
+app.post("/api/v1/sets/", async (req, res) => {
+    try {
+        const result = await db.query("INSERT INTO sets(reps, exercise_id) VALUES($1, $2) returning *", [req.body.reps, req.body.exercise_id])
+        res.status(201).json({
+            status: "sucess",
+            exercise: results.rows[0]
+        })
+    } catch (err) {
         res.status(500).json({
             status: "failure"
         })
