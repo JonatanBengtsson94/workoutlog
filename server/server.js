@@ -8,8 +8,22 @@ app.use(express.json())
 
 // Get exercises
 app.get("/api/v1/exercises", async (req, res) => {
-    const result = await db.query("SELECT * FROM exercises")
-    console.log(result)
+    try {
+        const results = await db.query("SELECT * FROM exercises")
+        console.log(results)
+        res.status(200).json({
+            status: "sucess",
+            results: results.rows.length,
+            data: {
+                exercises: results.rows
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: "failure"
+        })
+    }
+
 })
 
 // Get one exericise
