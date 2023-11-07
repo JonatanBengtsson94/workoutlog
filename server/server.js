@@ -107,7 +107,7 @@ app.get("/api/v1/workouts", async (req, res) => {
             status: "sucess",
             results: results.rows.length,
             data: {
-                exercises: results.rows
+                workouts: results.rows
             }
         })
     } catch (err) {
