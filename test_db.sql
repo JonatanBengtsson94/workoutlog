@@ -194,6 +194,7 @@ ALTER TABLE ONLY public.workouts ALTER COLUMN workout_id SET DEFAULT nextval('pu
 COPY public.exercises (exercise_id, name) FROM stdin;
 1	Benchpress
 2	Deadlift
+3	Squat
 \.
 
 
@@ -203,6 +204,12 @@ COPY public.exercises (exercise_id, name) FROM stdin;
 
 COPY public.sets (set_id, reps, exercise_id, workout_id, weight) FROM stdin;
 1	12	1	\N	\N
+4	10	1	1	100
+5	10	1	1	100
+6	5	2	1	200
+7	10	1	2	100
+8	3	2	2	220
+9	5	3	2	180
 \.
 
 
@@ -219,6 +226,8 @@ COPY public.users (user_id, username) FROM stdin;
 --
 
 COPY public.workouts (workout_id, workout_date) FROM stdin;
+1	2012-11-05
+2	2023-11-08
 \.
 
 
@@ -226,14 +235,14 @@ COPY public.workouts (workout_id, workout_date) FROM stdin;
 -- Name: exercises_excercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercises_excercise_id_seq', 2, true);
+SELECT pg_catalog.setval('public.exercises_excercise_id_seq', 3, true);
 
 
 --
 -- Name: sets_set_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sets_set_id_seq', 1, true);
+SELECT pg_catalog.setval('public.sets_set_id_seq', 9, true);
 
 
 --
@@ -247,7 +256,7 @@ SELECT pg_catalog.setval('public.users_user_id_seq', 1, false);
 -- Name: workouts_workout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.workouts_workout_id_seq', 1, false);
+SELECT pg_catalog.setval('public.workouts_workout_id_seq', 2, true);
 
 
 --
