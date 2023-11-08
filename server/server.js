@@ -1,8 +1,8 @@
 require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
-const db = require("./db")
 const exercises = require("./routes/exercises")
+const sets = require("./routes/sets")
 
 const app = express()
 
@@ -10,65 +10,11 @@ app.use(cors())
 app.use(express.json())
 
 
-// Get exercises
+// Exercises
 app.use("/api/v1/exercises", exercises)
 
 // Get sets
-app.get("/api/v1/sets", async (req, res) => {
-    try {
-        const results = await db.query("SELECT * FROM sets")
-        res.status(200).json({
-            status: "sucess",
-            results: results.rows.length,
-            data: {
-                sets: results.rows
-            }
-        })
-    } catch (err) {
-        res.status(500).json({
-            status: "failure"
-        })
-    }
-})
-
-// Get sets of workout
-app.get("/api/v1/sets/:id", async (req, res) => {
-    try {
-        const results = await db.query(
-            "SELECT * FROM sets WHERE workout_id = $1", [req.params.id])
-        res.status(200).json({
-            status: "sucess",
-            results: results.rows.length,
-            data: {
-                sets: results.rows
-            }
-        })
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({
-            status: "failure"
-        })
-    }
-})
-
-// Create new set
-app.post("/api/v1/sets/", async (req, res) => {
-    try {
-        const results = await db.query(
-            "INSERT INTO sets(reps, exercise_id, workout_id, weight) VALUES($1, $2, $3, $4) returning *",
-            [req.body.reps, req.body.exercise_id, req.body.workout_id, req.body.weight]
-        )
-        res.status(201).json({
-            status: "sucess",
-            exercise: results.rows[0]
-        })
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({
-            status: "failure"
-        })
-    }
-})
+app.use("/api/v1/sets", sets)
 
 // Get all workouts
 app.get("/api/v1/workouts", async (req, res) => {
