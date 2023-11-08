@@ -1,7 +1,10 @@
+import WorkoutInfo from "../components/WorkoutInfo"
+
 function WorkoutPage() {
     return (
         <div>
-            Workout
+            <h1>Workout</h1>
+            <WorkoutInfo />
         </div>
     )
 }
