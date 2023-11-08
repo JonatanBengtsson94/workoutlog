@@ -18,16 +18,16 @@ function WorkoutsList() {
         getWorkouts()
     }, [])
 
-    console.log(workouts)
+    console.log(workouts[0])
 
     return (
         <div>
             <button>Log new workout</button>
             <ul>
                 <h4>Workouts</h4>
-                {workouts.map(workout => (
-                    <li>
-                        {workout.workout_date}
+                {workouts && workouts.map(workout => (
+                    <li key={workout.workout_id}>
+                        {Intl.DateTimeFormat('en-GB', { dateStyle: "long"}).format(new Date(workout.workout_date))}
                     </li>
                 ))}
             </ul>
