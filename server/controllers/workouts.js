@@ -19,10 +19,13 @@ const getAllWorkouts = async (req, res) => {
 
 const getSingleWorkout = async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM workouts WHERE workout_id = $1", [req.params.id])
+        const results = await db.query(
+            "SELECT * FROM sets INNER JOIN workouts ON sets.workout_id = workouts.workout_id\
+            INNER JOIN exercises ON sets.exercise_id = exercises.exercise_id WHERE workouts.workout_id = $1"
+            ,[req.params.id])
         res.status(200).json({
             status: "sucess",
-            exercise: results.rows[0]
+            sets: results.rows
         })
     } catch (err) {
         console.log(err)
