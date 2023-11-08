@@ -2,45 +2,16 @@ require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
 const db = require("./db")
+const exercises = require("./routes/exercises")
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-// Get exercises
-app.get("/api/v1/exercises", async (req, res) => {
-    try {
-        const results = await db.query("SELECT * FROM exercises")
-        res.status(200).json({
-            status: "sucess",
-            results: results.rows.length,
-            data: {
-                exercises: results.rows
-            }
-        })
-    } catch (err) {
-        res.status(500).json({
-            status: "failure"
-        })
-    }
-})
 
-// Get one exericise
-app.get("/api/v1/exercises/:id", async (req, res) => {
-    try {
-        const results = await db.query("SELECT * FROM exercises WHERE exercise_id = $1", [req.params.id])
-        res.status(200).json({
-            status: "sucess",
-            exercise: results.rows[0]
-        })
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({
-            status: "failure"
-        })
-    }
-})
+// Get exercises
+app.use("/api/v1/exercises", exercises)
 
 // Get sets
 app.get("/api/v1/sets", async (req, res) => {
