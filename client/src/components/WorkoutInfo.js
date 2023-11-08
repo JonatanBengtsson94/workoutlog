@@ -4,21 +4,21 @@ import { useState, useEffect } from "react"
 function WorkoutInfo() {
 
     const { id } = useParams()
-    const [workoutInfo, setWorkoutInfo] = useState()
+    const [sets, setSets] = useState()
 
-    const getWorkoutInfo = async () => {
+    const getSets = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/api/v1/sets/${id}`)
+            const response = await fetch(`http://localhost:4000/api/v1/workouts/${id}`)
             const jsondata = await response.json()
-            console.log(jsondata)
-            setWorkoutInfo(jsondata)
+            console.log(jsondata.sets)
+            setSets(jsondata.sets)
         } catch (err) {
             console.log(err)
         }
     }
 
     useEffect(() => {
-        getWorkoutInfo()
+        getSets()
     }, [])
 
     return (
@@ -26,22 +26,19 @@ function WorkoutInfo() {
              <table>
                 <thead>
                     <tr>
-                        <th>Company</th>
-                        <th>Contact</th>
-                        <th>Country</th>
+                        <th>Exercise</th>
+                        <th>Reps</th>
+                        <th>Weight</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Alfreds Futterkiste</td>
-                        <td>Maria Anders</td>
-                        <td>Germany</td>
-                    </tr>
-                    <tr>
-                        <td>Centro comercial Moctezuma</td>
-                        <td>Francisco Chang</td>
-                        <td>Mexico</td>
-                    </tr>
+                    {sets && sets.map(set => (
+                        <tr key={set.set_id}>
+                            <td>{set.name}</td>
+                            <td>{set.reps}</td>
+                            <td>{set.weight}</td>
+                        </tr>
+                    ))}
                 </tbody>
                 </table> 
         </div>
