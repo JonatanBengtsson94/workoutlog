@@ -5,7 +5,9 @@ function Home() {
     return (
         <div className="container">
             <Header />
-            <WorkoutsList />
+            <main>
+                <WorkoutsList />
+            </main>
         </div>
     )
 }

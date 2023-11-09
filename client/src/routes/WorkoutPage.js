@@ -5,8 +5,10 @@ function WorkoutPage() {
     return (
         <div className="container">
             <Header />
-            <h1>Workout</h1>
-            <WorkoutInfo />
+            <main>
+                <h1>Workout</h1>
+                <WorkoutInfo />
+            </main>
         </div>
     )
 }
