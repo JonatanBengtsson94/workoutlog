@@ -7,7 +7,6 @@ function Header() {
                 <li className="nav-item"><a href="/">Home</a></li>
                 <li className="nav-item"><a href="/about">About</a></li>
                 <li className="nav-item"><a href="/contacts">Contacts</a></li>
-                <li className="nav-item"><a href="/stats">Statistics</a></li>
             </ul>
         </nav>
         </header>

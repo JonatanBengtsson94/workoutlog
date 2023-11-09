@@ -21,18 +21,20 @@ function WorkoutsList() {
     }, [])
 
     return (
-        <div>
-            <button>Log new workout</button>
-            <ul>
-                <h4>Workouts</h4>
-                {workouts && workouts.map(workout => (
-                    <li key={workout.workout_id}>
-                        <button onClick={() => navigate(`/workout/${workout.workout_id}`)}>
-                            {Intl.DateTimeFormat('en-GB', { dateStyle: "long"}).format(new Date(workout.workout_date))}
-                        </button>
-                    </li>
-                ))}
-            </ul>
+        <div className="main-container">
+            <button className="new-workoutbtn">Log new workout</button>
+            <div className="workouts-div">
+            <h4 className="sub-title">Workouts</h4>
+                <ul>
+                    {workouts && workouts.map(workout => (
+                        <li className="workouts" key={workout.workout_id}>
+                            <button className="workout-btn" onClick={() => navigate(`/workout/${workout.workout_id}`)}>
+                                {Intl.DateTimeFormat('en-GB', { dateStyle: "long"}).format(new Date(workout.workout_date))}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

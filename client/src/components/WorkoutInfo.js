@@ -10,7 +10,6 @@ function WorkoutInfo() {
         try {
             const response = await fetch(`http://localhost:4000/api/v1/workouts/${id}`)
             const jsondata = await response.json()
-            console.log(jsondata.sets)
             setSets(jsondata.sets)
         } catch (err) {
             console.log(err)
