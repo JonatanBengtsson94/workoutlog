@@ -23,8 +23,8 @@ function WorkoutsList() {
     return (
         <div className="main-container">
             <button className="new-workoutbtn">Log new workout</button>
-            <div className="workouts-div">
             <h4 className="sub-title">Workouts</h4>
+            <div className="workouts-div">
                 <ul>
                     {workouts && workouts.map(workout => (
                         <li className="workouts" key={workout.workout_id}>

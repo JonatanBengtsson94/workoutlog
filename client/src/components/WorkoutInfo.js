@@ -21,8 +21,9 @@ function WorkoutInfo() {
     }, [])
 
     return (
-        <div>
-             <table>
+        <div className="main-container">
+            <h4 className="sub-title">Workout</h4>
+             <table className="exercise-table">
                 <thead>
                     <tr>
                         <th>Exercise</th>
@@ -35,7 +36,7 @@ function WorkoutInfo() {
                         <tr key={set.set_id}>
                             <td>{set.name}</td>
                             <td>{set.reps}</td>
-                            <td>{set.weight}</td>
+                            <td>{set.weight} kg</td>
                         </tr>
                     ))}
                 </tbody>

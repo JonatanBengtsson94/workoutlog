@@ -6,7 +6,6 @@ function WorkoutPage() {
         <div className="container">
             <Header />
             <main>
-                <h1>Workout</h1>
                 <WorkoutInfo />
             </main>
         </div>

@@ -1,5 +1,5 @@
 :root {
-    --main-blue: #f5fcff;
+    --main-blue: #5F9EA0;
 } 
 
 * {
@@ -16,7 +16,7 @@ header {
     position: sticky;
     top: 0;
     background-color: var(--main-blue);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 button {
@@ -28,6 +28,7 @@ button {
 button:hover {
     background: rgba(0,0,0,0.1);
     cursor: pointer;
+    color: white;
 }
 
 li {
@@ -42,6 +43,7 @@ li {
 .main-title {
     padding: 1rem;
     font-size: 1.2rem;
+    color: white;
 }
 
 .nav-items {
@@ -51,7 +53,7 @@ li {
 .nav-item a {
     font-size: 1.2rem;
     font-weight: bold;
-    color: black;
+    color: white;
     text-decoration: none;
     padding: 1rem;
     display: block;
@@ -74,7 +76,8 @@ main {
 
 .sub-title {
     text-align: center;
-
+    padding: 10px;
+    font-size: 1.5rem;
 }
 
 .new-workoutbtn {
@@ -93,7 +96,7 @@ main {
 }
 
 .workouts-div {
-    background-color: lightgray;
+    background-color: var(--main-blue);
     padding: 25px;
     border-radius: 10px;
 }
@@ -106,5 +109,20 @@ main {
 .workout-btn {
     width: 500px;
     height: 3vh;
+}
+
+.exercise-table {
+    border-collapse: collapse;
+    width: 500px;
+}
+
+.exercise-table th, .exercise-table td {
+    border: 1px solid lightgray;
+    padding: 8px;
+}
+
+.exercise-table th {
+    background-color: var(--main-blue);
+    color: white;
 }
 
