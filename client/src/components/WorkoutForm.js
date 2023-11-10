@@ -40,6 +40,10 @@ function WorkoutForm() {
         })
     }
 
+    const submitWorkout = () => {
+        
+    }
+
     return (
         <div className="main-container">
             <button className="confirm-btn" onClick={handleAddSet}>Add set</button>

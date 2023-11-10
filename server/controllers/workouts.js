@@ -35,7 +35,15 @@ const getSingleWorkout = async (req, res) => {
     }
 }
 
+const createWorkout = async (req, res) => {
+        const workout_id = await db.query(
+            "INSERT INTO workouts(workout_date) VALUES($1) returning *", [req.body.date]
+        )
+        console.log(workout_id)
+}
+
 module.exports = {
     getAllWorkouts,
-    getSingleWorkout
+    getSingleWorkout,
+    createWorkout
 }
