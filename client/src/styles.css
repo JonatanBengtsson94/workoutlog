@@ -1,5 +1,8 @@
 :root {
-    --main-blue: #5F9EA0;
+    /* --main-blue: #5F9EA0; */
+    --main-blue: #6082B6;
+    --confirm-green: #04AA6D;
+    --cancel-red: #d21f3c;
 } 
 
 * {
@@ -85,18 +88,18 @@ main {
     height: 33px;
     margin-left: auto;
     margin-right: auto;
-    background-color: #04AA6D;
+    background-color: var(--confirm-green);
     color: white;
     font-size: 1.1rem;
     border: none;
 }
 
 .confirm-btn:hover {
-    background-color: #04AA6D;
+    background-color: var(--confirm-green);
 }
 
 .cancel-btn {
-    background-color: #d21f3c;
+    background-color: var(--cancel-red);
     color: white;
     border: none;
     border-radius: 2px;
@@ -105,7 +108,7 @@ main {
 }
 
 .cancel-btn:hover {
-    background-color: #d21f3c;
+    background-color: var(--cancel-red);
 }
 
 .workouts-div {
@@ -150,11 +153,20 @@ main {
 
 .exercise-input-div label {
     padding-left: 20px;
-    padding-right: 10px
+    padding-right: 10px;
+    color: white;
 }
 
 form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: var(--main-blue);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+select {
+    background-color: white;
+    width: 178px;
 }

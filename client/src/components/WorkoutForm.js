@@ -1,8 +1,23 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 function WorkoutForm() {
 
     const [sets, setSets] = useState([{ exercise: "", reps: "", weight: "" }])
+    const [exercises, setExercises] = useState([])
+
+    const getExercises = async () => {
+        try {
+            const response = await fetch("http://localhost:4000/api/v1/exercises")
+            const jsondata = await response.json()
+            setExercises(jsondata.data.exercises)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        getExercises()
+    }, [])
 
     const handleAddSet = () => {
         setSets([...sets, { exercise: "", reps: "", weight: "" }])
@@ -33,12 +48,15 @@ function WorkoutForm() {
                 {sets.map((set, index) => (
                     <div key={index} className ="exercise-input-div">
                         <label htmlFor={`exercise-${index}`}>Exercise</label>
-                        <input 
-                            type="text"
+                        <select 
                             id={`exercise-${index}`}
                             value={set.exercise}
                             onChange={e => handleChange(index, "exercise", e.target.value)}
-                        />
+                        >
+                            {exercises.map(exercise => (
+                                <option key={exercise.name} value={exercise.name}>{exercise.name}</option>
+                            ))}
+                        </select>
                         <label htmlFor={`reps-${index}`}>Reps</label>
                         <input
                             type="text"
