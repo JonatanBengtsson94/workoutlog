@@ -22,7 +22,7 @@ function WorkoutsList() {
 
     return (
         <div className="main-container">
-            <button className="new-workoutbtn" onClick={() => navigate("/logworkout")}>Log new workout</button>
+            <button className="confirm-btn" onClick={() => navigate("/logworkout")}>Log new workout</button>
             <h4 className="sub-title">Workouts</h4>
             <div className="workouts-div">
                 <ul>

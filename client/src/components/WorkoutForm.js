@@ -2,10 +2,19 @@ import { useState } from "react"
 
 function WorkoutForm() {
 
-    const [sets, setSets] = useState([{ exercise: "", reps: 0, weight: 0 }])
+    const [sets, setSets] = useState([{ exercise: "", reps: "", weight: "" }])
 
     const handleAddSet = () => {
-        setSets([...sets, { exercise: "", reps: 0, weight: 0 }])
+        setSets([...sets, { exercise: "", reps: "", weight: "" }])
+    }
+
+    const handleRemoveSet = (e, index) => {
+        e.preventDefault()
+        setSets(prevState => {
+            const updatedSets = [...prevState]
+            updatedSets.splice(index, 1)
+            return updatedSets
+        })
     }
 
     const handleChange = (index, key, value) => {
@@ -18,8 +27,8 @@ function WorkoutForm() {
 
     return (
         <div className="main-container">
+            <button className="confirm-btn" onClick={handleAddSet}>Add set</button>
             <h4 className="sub-title">Sets in workout</h4>
-            <button className="new-workoutbtn" onClick={handleAddSet}>Add set</button>
             <form>
                 {sets.map((set, index) => (
                     <div key={index} className ="exercise-input-div">
@@ -44,10 +53,11 @@ function WorkoutForm() {
                             value={set.weight}
                             onChange={e => handleChange(index, "weight", e.target.value)}
                         />
+                        <button className="cancel-btn" onClick={ e => handleRemoveSet(e, index)}>X</button>
                     </div>
                 ))}
+                <button className="confirm-btn">Save workout</button>
             </form>
-            <button className="new-workoutbtn">Save workout</button>
         </div>
     )
 }
