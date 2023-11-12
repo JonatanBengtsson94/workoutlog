@@ -4,6 +4,7 @@ function WorkoutForm() {
 
     const [sets, setSets] = useState([{ exercise: "", reps: "", weight: "" }])
     const [exercises, setExercises] = useState([])
+    const [workoutDate, setWorkoutDate] = useState("")
 
     const getExercises = async () => {
         try {
@@ -40,8 +41,46 @@ function WorkoutForm() {
         })
     }
 
-    const submitWorkout = () => {
-        
+    const submitSets = async (id) => {
+        try {
+            sets.forEach(async set => {
+                const response = await fetch("http://localhost:4000/api/v1/sets", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        reps: parseInt(set.reps),
+                        exercise_id: parseInt(set.exercise),
+                        workout_id: parseInt(id),
+                        weight: parseInt(set.weight)
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                })
+                console.log("Posted")
+            });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const submitWorkout = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await fetch("http://localhost:4000/api/v1/workouts", {
+                method: "POST",
+                body: JSON.stringify({
+                    date: `${workoutDate}`
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            const jsondata = await response.json()
+            const newWorkoutId = jsondata.workout.workout_id
+            submitSets(newWorkoutId)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -58,7 +97,7 @@ function WorkoutForm() {
                             onChange={e => handleChange(index, "exercise", e.target.value)}
                         >
                             {exercises.map(exercise => (
-                                <option key={exercise.name} value={exercise.name}>{exercise.name}</option>
+                                <option key={exercise.exercise_id} value={exercise.exercise_id}>{exercise.name}</option>
                             ))}
                         </select>
                         <label htmlFor={`reps-${index}`}>Reps</label>
@@ -75,10 +114,16 @@ function WorkoutForm() {
                             value={set.weight}
                             onChange={e => handleChange(index, "weight", e.target.value)}
                         />
-                        <button className="cancel-btn" onClick={ e => handleRemoveSet(e, index)}>X</button>
+                        <button className="cancel-btn" onClick={e => handleRemoveSet(e, index)}>X</button>
                     </div>
                 ))}
-                <button className="confirm-btn">Save workout</button>
+                <label htmlFor="workout-date" className="workout-date-label">Date for workout</label>
+                <input
+                    type="date"
+                    id="workout-date"
+                    onChange={e => setWorkoutDate(e.target.value)}
+                />
+                <button className="confirm-btn" onClick={e => submitWorkout(e)}>Save workout</button>
             </form>
         </div>
     )
