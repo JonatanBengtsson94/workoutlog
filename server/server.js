@@ -20,10 +20,6 @@ app.use("/api/v1/sets", sets)
 // Workouts
 app.use("/api/v1/workouts", workouts)
 
-// Create workout
-// Create new user
-// Get user
-
 const port = process.env.PORT
 app.listen(port, () => {
     console.log(`Server is listening to port ${port}`)

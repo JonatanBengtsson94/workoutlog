@@ -56,7 +56,6 @@ function WorkoutForm() {
                         "Content-type": "application/json; charset=UTF-8"
                     }
                 })
-                console.log("Posted")
             });
         } catch (err) {
             console.log(err)
