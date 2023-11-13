@@ -8,6 +8,7 @@ const exercises = require("./routes/exercises")
 const sets = require("./routes/sets")
 const workouts = require("./routes/workouts")
 const register = require("./routes/register")
+const login = require("./routes/login")
 
 
 const app = express()
@@ -32,8 +33,15 @@ require("./config/passport")
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Routes
+app.use((req, res, next) => {
+    console.log(req.session)
+    console.log(req.user)
+    next()
+})
+
+// Login
 app.use("/register", register)
+app.use("/login", passport.authenticate("local"), login)
 
 // Exercises
 app.use("/api/v1/exercises", exercises)

@@ -3,7 +3,7 @@ const { genPassword } = require("../lib/passwordUtils")
 const { pool } = require("../config/db")
 const router = express.Router()
 
-const registerNewUser = async (req, res, next) => {
+const registerNewUser = async (req, res) => {
     const saltHash = genPassword(req.body.password)
 
     const salt = saltHash.salt
