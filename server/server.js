@@ -20,7 +20,7 @@ app.use(session({
         pool: pool,
         createTableIfMissing: true
     }),
-    secret: process.env.SECRET,
+    secret: "secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -35,13 +35,18 @@ app.use(passport.session())
 
 app.use((req, res, next) => {
     console.log(req.session)
+    console.log(req.isAuthenticated())
     console.log(req.user)
     next()
 })
 
 // Login
 app.use("/register", register)
-app.use("/login", passport.authenticate("local"), login)
+app.post("/login", passport.authenticate("local"), (req, res, next) => {
+    res.json({
+        user: req.user
+    })
+})
 
 // Exercises
 app.use("/api/v1/exercises", exercises)

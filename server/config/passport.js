@@ -11,7 +11,7 @@ passport.use(new LocalStrategy(
         const isValid = validatePassword(password, results.rows[0].hash, results.rows[0].salt)
 
         if (isValid) {
-            return done(null, results.rows[0].userId)
+            return done(null, results.rows[0])
         } else {
             return done(null, false)
         }
@@ -19,10 +19,10 @@ passport.use(new LocalStrategy(
 ))
 
 passport.serializeUser((user, done) => {
-    done(null, user.id)
+    done(null, user.user_id)
 })
 
-passport.deserializeUser((userId, done) => {
-    results = pool.query("SELECT user_id FROM users WHERE user_id = $1", [userId])
-    if (results.rows.length == 1) { return done(null, user) }
+passport.deserializeUser(async (userId, done) => {
+    results = await pool.query("SELECT * FROM users WHERE user_id = $1", [userId])
+    if (results.rows.length == 1) { return done(null, results.rows[0]) }
 })
