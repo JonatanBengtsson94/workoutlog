@@ -5,6 +5,10 @@ function Login() {
         <div className="container">
             <Header />
             <main>
+                <form>
+                    <input type="text"></input>
+                    <input type="password"></input>
+                </form>
             </main>
         </div>
     )

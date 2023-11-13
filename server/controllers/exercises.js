@@ -1,8 +1,8 @@
-const db = require("../config/db")
+const { pool } = require("../config/db")
 
 const getAllExercises = async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM exercises")
+        const results = await pool.query("SELECT * FROM exercises")
         res.status(200).json({
             status: "sucess",
             results: results.rows.length,
@@ -19,7 +19,7 @@ const getAllExercises = async (req, res) => {
 
 const getSingleExercise =  async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM exercises WHERE exercise_id = $1", [req.params.id])
+        const results = await pool.query("SELECT * FROM exercises WHERE exercise_id = $1", [req.params.id])
         res.status(200).json({
             status: "sucess",
             exercise: results.rows[0]

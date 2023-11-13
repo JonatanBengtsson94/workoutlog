@@ -1,8 +1,8 @@
-const db = require("../config/db")
+const { pool } = require("../config/db")
 
 const getAllWorkouts = async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM workouts")
+        const results = await pool.query("SELECT * FROM workouts")
         res.status(200).json({
             status: "sucess",
             results: results.rows.length,
@@ -19,7 +19,7 @@ const getAllWorkouts = async (req, res) => {
 
 const getSingleWorkout = async (req, res) => {
     try {
-        const results = await db.query(
+        const results = await pool.query(
             "SELECT * FROM sets INNER JOIN workouts ON sets.workout_id = workouts.workout_id\
             INNER JOIN exercises ON sets.exercise_id = exercises.exercise_id WHERE workouts.workout_id = $1"
             ,[req.params.id])
@@ -37,7 +37,7 @@ const getSingleWorkout = async (req, res) => {
 
 const createWorkout = async (req, res) => {
     try {
-        const results = await db.query(
+        const results = await pool.query(
             "INSERT INTO workouts(workout_date) VALUES($1) returning *", [req.body.date]
         )
         console.log(results)
