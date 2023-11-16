@@ -15,7 +15,11 @@ const login = require("./routes/login")
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}))
+
 app.use(express.json())
 app.use(session({
     store: new (require("connect-pg-simple")(session))({
@@ -36,18 +40,22 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Login
+app.get("/login", isAuth, (req, res) => {
+    res.status(200).json({ authenticated: "true" })
+})
 app.use("/register", register)
-app.post("/login", passport.authenticate("local"), (req, res, next) => {
-    res.json({
-        user: req.user
-    })
+app.post("/login", passport.authenticate("local"), (req, res) => {
+    res.status(200).json({ authenticated: "true" })
 })
 
 // Exercises
 app.use("/api/v1/exercises", exercises)
 
+app.use(isAuth)
+app.use(isOwner)
+
 // Sets
-app.use("/api/v1/sets", isAuth, isOwner, sets)
+app.use("/api/v1/sets", sets)
 
 // Workouts
 app.use("/api/v1/workouts", workouts)

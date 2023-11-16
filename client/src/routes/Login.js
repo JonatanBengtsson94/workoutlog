@@ -1,14 +1,12 @@
 import Header from "../components/Header"
+import LoginForm from "../components/LoginForm"
 
 function Login() {
     return (
         <div className="container">
             <Header />
             <main>
-                <form>
-                    <input type="text"></input>
-                    <input type="password"></input>
-                </form>
+                <LoginForm />
             </main>
         </div>
     )

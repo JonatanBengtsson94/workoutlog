@@ -1,5 +1,4 @@
 function isOwner(req, res, next) {
-    console.log(Object.keys(req.params).length)
     if(Object.keys(req.params).length === 0) {
         next()
         return
