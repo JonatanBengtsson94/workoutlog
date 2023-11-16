@@ -4,7 +4,8 @@ const cors = require("cors")
 const session = require("express-session")
 const passport = require("passport")
 const { pool } = require("./config/db")
-const { isAuth } = require("./middleware/auth")
+const { isAuth } = require("./middleware/authentication")
+const { isOwner } = require("./middleware/authorization")
 const exercises = require("./routes/exercises")
 const sets = require("./routes/sets")
 const workouts = require("./routes/workouts")
@@ -34,13 +35,6 @@ require("./config/passport")
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use((req, res, next) => {
-    console.log(req.session)
-    console.log(req.isAuthenticated())
-    console.log(req.user)
-    next()
-})
-
 // Login
 app.use("/register", register)
 app.post("/login", passport.authenticate("local"), (req, res, next) => {
@@ -53,7 +47,7 @@ app.post("/login", passport.authenticate("local"), (req, res, next) => {
 app.use("/api/v1/exercises", exercises)
 
 // Sets
-app.use("/api/v1/sets", isAuth, sets)
+app.use("/api/v1/sets", isAuth, isOwner, sets)
 
 // Workouts
 app.use("/api/v1/workouts", workouts)
