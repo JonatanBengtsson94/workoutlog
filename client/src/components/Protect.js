@@ -11,7 +11,6 @@ function Protect(props) {
                 credentials: "include"
             })
             const jsondata = await response.json()
-            console.log(jsondata)
             if (jsondata.authenticated === "true") {
                 setAuthenticated(true)
             } else {
