@@ -4,6 +4,7 @@ const cors = require("cors")
 const session = require("express-session")
 const passport = require("passport")
 const { pool } = require("./config/db")
+const { isAuth } = require("./middleware/auth")
 const exercises = require("./routes/exercises")
 const sets = require("./routes/sets")
 const workouts = require("./routes/workouts")
@@ -52,7 +53,7 @@ app.post("/login", passport.authenticate("local"), (req, res, next) => {
 app.use("/api/v1/exercises", exercises)
 
 // Sets
-app.use("/api/v1/sets", passport.authenticate("local"), sets)
+app.use("/api/v1/sets", isAuth, sets)
 
 // Workouts
 app.use("/api/v1/workouts", workouts)
