@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.9 (Ubuntu 14.9-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.9 (Ubuntu 14.9-0ubuntu0.22.04.1)
+-- Dumped from database version 15.5 (Debian 15.5-0+deb12u1)
+-- Dumped by pg_dump version 15.5 (Debian 15.5-0+deb12u1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -33,10 +33,10 @@ CREATE TABLE public.exercises (
 ALTER TABLE public.exercises OWNER TO postgres;
 
 --
--- Name: exercises_excercise_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: exercises_exercise_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.exercises_excercise_id_seq
+CREATE SEQUENCE public.exercises_exercise_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -45,13 +45,13 @@ CREATE SEQUENCE public.exercises_excercise_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.exercises_excercise_id_seq OWNER TO postgres;
+ALTER TABLE public.exercises_exercise_id_seq OWNER TO postgres;
 
 --
--- Name: exercises_excercise_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: exercises_exercise_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.exercises_excercise_id_seq OWNED BY public.exercises.exercise_id;
+ALTER SEQUENCE public.exercises_exercise_id_seq OWNED BY public.exercises.exercise_id;
 
 
 --
@@ -97,7 +97,9 @@ ALTER SEQUENCE public.sets_set_id_seq OWNED BY public.sets.set_id;
 
 CREATE TABLE public.users (
     user_id integer NOT NULL,
-    username character varying(20)
+    username character varying(20),
+    hash character varying(200),
+    salt character varying(200)
 );
 
 
@@ -131,7 +133,8 @@ ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
 
 CREATE TABLE public.workouts (
     workout_id integer NOT NULL,
-    workout_date date
+    date date,
+    user_id integer
 );
 
 
@@ -163,7 +166,7 @@ ALTER SEQUENCE public.workouts_workout_id_seq OWNED BY public.workouts.workout_i
 -- Name: exercises exercise_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.exercises ALTER COLUMN exercise_id SET DEFAULT nextval('public.exercises_excercise_id_seq'::regclass);
+ALTER TABLE ONLY public.exercises ALTER COLUMN exercise_id SET DEFAULT nextval('public.exercises_exercise_id_seq'::regclass);
 
 
 --
@@ -192,9 +195,6 @@ ALTER TABLE ONLY public.workouts ALTER COLUMN workout_id SET DEFAULT nextval('pu
 --
 
 COPY public.exercises (exercise_id, name) FROM stdin;
-1	Benchpress
-2	Deadlift
-3	Squat
 \.
 
 
@@ -203,13 +203,6 @@ COPY public.exercises (exercise_id, name) FROM stdin;
 --
 
 COPY public.sets (set_id, reps, exercise_id, workout_id, weight) FROM stdin;
-1	12	1	\N	\N
-4	10	1	1	100
-5	10	1	1	100
-6	5	2	1	200
-7	10	1	2	100
-8	3	2	2	220
-9	5	3	2	180
 \.
 
 
@@ -217,7 +210,7 @@ COPY public.sets (set_id, reps, exercise_id, workout_id, weight) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (user_id, username) FROM stdin;
+COPY public.users (user_id, username, hash, salt) FROM stdin;
 \.
 
 
@@ -225,24 +218,22 @@ COPY public.users (user_id, username) FROM stdin;
 -- Data for Name: workouts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.workouts (workout_id, workout_date) FROM stdin;
-1	2012-11-05
-2	2023-11-08
+COPY public.workouts (workout_id, date, user_id) FROM stdin;
 \.
 
 
 --
--- Name: exercises_excercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: exercises_exercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercises_excercise_id_seq', 3, true);
+SELECT pg_catalog.setval('public.exercises_exercise_id_seq', 1, false);
 
 
 --
 -- Name: sets_set_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sets_set_id_seq', 9, true);
+SELECT pg_catalog.setval('public.sets_set_id_seq', 1, false);
 
 
 --
@@ -256,7 +247,7 @@ SELECT pg_catalog.setval('public.users_user_id_seq', 1, false);
 -- Name: workouts_workout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.workouts_workout_id_seq', 2, true);
+SELECT pg_catalog.setval('public.workouts_workout_id_seq', 1, false);
 
 
 --
@@ -305,6 +296,14 @@ ALTER TABLE ONLY public.sets
 
 ALTER TABLE ONLY public.sets
     ADD CONSTRAINT sets_workout_id_fkey FOREIGN KEY (workout_id) REFERENCES public.workouts(workout_id);
+
+
+--
+-- Name: workouts workouts_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.workouts
+    ADD CONSTRAINT workouts_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id);
 
 
 --
