@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import baseURL from "../apis/workoutlog"
 
 function WorkoutsList() {
 
@@ -8,7 +9,7 @@ function WorkoutsList() {
 
     const getWorkouts = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/v1/workouts", {
+            const response = await fetch(`${baseURL}workouts`, {
                 credentials: "include"
             })
             const jsondata = await response.json()

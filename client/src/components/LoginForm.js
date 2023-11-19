@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import baseURL from "../apis/workoutlog"
 
 function LoginForm() {
 
@@ -10,7 +11,7 @@ function LoginForm() {
     const submitLogin = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://localhost:4000/api/v1/login", {
+            const response = await fetch(`${baseURL}/login`, {
                 method: "POST",
                 body: JSON.stringify({
                     username: username,

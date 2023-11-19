@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
+import baseURL from "../apis/workoutlog"
 
 function WorkoutInfo() {
 
@@ -8,7 +9,7 @@ function WorkoutInfo() {
 
     const getSets = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/api/v1/workouts/${id}`, {
+            const response = await fetch(`${baseURL}/workouts/${id}`, {
                 credentials: "include"
             })
             const jsondata = await response.json()

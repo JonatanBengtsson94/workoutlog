@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import baseURL from "../apis/workoutlog"
 
 function WorkoutForm() {
 
@@ -10,7 +11,7 @@ function WorkoutForm() {
 
     const getExercises = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/v1/exercises")
+            const response = await fetch(`${baseURL}/exercises`)
             const jsondata = await response.json()
             setExercises(jsondata.data.exercises)
         } catch (err) {
@@ -46,7 +47,7 @@ function WorkoutForm() {
     const submitSets = async (id) => {
         try {
             sets.forEach(async set => {
-                const response = await fetch("http://localhost:4000/api/v1/sets", {
+                const response = await fetch(`${baseURL}/sets`, {
                     method: "POST",
                     body: JSON.stringify({
                         reps: parseInt(set.reps),
@@ -69,7 +70,7 @@ function WorkoutForm() {
     const submitWorkout = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://localhost:4000/api/v1/workouts", {
+            const response = await fetch(`${baseURL}/workouts`, {
                 method: "POST",
                 body: JSON.stringify({
                     date: `${workoutDate}`
@@ -80,7 +81,6 @@ function WorkoutForm() {
                 }
             })
             const jsondata = await response.json()
-            console.log(jsondata)
             const newWorkoutId = jsondata.workout.workout_id
             submitSets(newWorkoutId)
         } catch (err) {

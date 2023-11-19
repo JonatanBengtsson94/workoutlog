@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
+import baseURL from "../apis/workoutlog"
 
 function Protect(props) {
     const navigate = useNavigate()
@@ -7,7 +8,7 @@ function Protect(props) {
 
     const authenticate = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/v1/login", {
+            const response = await fetch(`${baseURL}/login`, {
                 credentials: "include"
             })
             const jsondata = await response.json()
