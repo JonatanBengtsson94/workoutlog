@@ -9,7 +9,7 @@ function WorkoutsList() {
 
     const getWorkouts = async () => {
         try {
-            const response = await fetch(`${baseURL}workouts`, {
+            const response = await fetch(`${baseURL}/workouts`, {
                 credentials: "include"
             })
             const jsondata = await response.json()
