@@ -8,7 +8,9 @@ function WorkoutInfo() {
 
     const getSets = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/api/v1/workouts/${id}`)
+            const response = await fetch(`http://localhost:4000/api/v1/workouts/${id}`, {
+                credentials: "include"
+            })
             const jsondata = await response.json()
             setSets(jsondata.sets)
         } catch (err) {

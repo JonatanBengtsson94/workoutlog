@@ -52,6 +52,7 @@ function WorkoutForm() {
                         workout_id: parseInt(id),
                         weight: parseInt(set.weight)
                     }),
+                    credentials: "include",
                     headers: {
                         "Content-type": "application/json; charset=UTF-8"
                     }
@@ -70,11 +71,13 @@ function WorkoutForm() {
                 body: JSON.stringify({
                     date: `${workoutDate}`
                 }),
+                credentials: "include",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             })
             const jsondata = await response.json()
+            console.log(jsondata)
             const newWorkoutId = jsondata.workout.workout_id
             submitSets(newWorkoutId)
         } catch (err) {
