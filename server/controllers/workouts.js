@@ -37,9 +37,8 @@ const getSingleWorkout = async (req, res) => {
 const createWorkout = async (req, res) => {
     try {
         const results = await pool.query(
-            "INSERT INTO workouts(workout_date) VALUES($1) returning *", [req.body.date]
+            "INSERT INTO workouts(date, user_id) VALUES($1, $2) returning *", [req.body.date, req.user.user_id]
         )
-        console.log(results)
         res.status(201).json({
             status: "sucess",
             workout: results.rows[0]
