@@ -38,7 +38,8 @@ const getSetsInWorkout = async (req, res) => {
 
 const createSet = async (req, res) => {
     try {
-        const results = await db.query(
+        console.log()
+        const results = await pool.query(
             "INSERT INTO sets(reps, exercise_id, workout_id, weight) VALUES($1, $2, $3, $4) returning *",
             [req.body.reps, req.body.exercise_id, req.body.workout_id, req.body.weight]
         )
@@ -47,6 +48,7 @@ const createSet = async (req, res) => {
             exercise: results.rows[0]
         })
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             status: "failure"
         })
