@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 function WorkoutForm() {
 
     const [sets, setSets] = useState([{ exercise: "", reps: "", weight: "" }])
     const [exercises, setExercises] = useState([])
-    const [workoutDate, setWorkoutDate] = useState("")
+    const [workoutDate, setWorkoutDate] = useState()
+    const navigate = useNavigate()
 
     const getExercises = async () => {
         try {
@@ -57,7 +59,8 @@ function WorkoutForm() {
                         "Content-type": "application/json; charset=UTF-8"
                     }
                 })
-            });
+            })
+            navigate("/")
         } catch (err) {
             console.log(err)
         }
@@ -98,6 +101,7 @@ function WorkoutForm() {
                             value={set.exercise}
                             onChange={e => handleChange(index, "exercise", e.target.value)}
                         >
+                            <option key="nochoice" value="">Chose exercise</option>
                             {exercises.map(exercise => (
                                 <option key={exercise.exercise_id} value={exercise.exercise_id}>{exercise.name}</option>
                             ))}
@@ -123,6 +127,7 @@ function WorkoutForm() {
                 <input
                     type="date"
                     id="workout-date"
+                    value={workoutDate}
                     onChange={e => setWorkoutDate(e.target.value)}
                 />
                 <button className="confirm-btn" onClick={e => submitWorkout(e)}>Save workout</button>
