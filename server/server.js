@@ -39,14 +39,9 @@ require("./config/passport")
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Login
-app.get("/login", isAuth, (req, res) => {
-    res.status(200).json({ authenticated: "true" })
-})
+// Users
+app.use("/login", login)
 app.use("/register", register)
-app.post("/login", passport.authenticate("local"), (req, res) => {
-    res.status(200).json({ authenticated: "true" })
-})
 
 // Exercises
 app.use("/api/v1/exercises", exercises)

@@ -25,7 +25,6 @@ const getSingleExercise =  async (req, res) => {
             exercise: results.rows[0]
         })
     } catch (err) {
-        console.log(err)
         res.status(500).json({
             status: "failure"
         })

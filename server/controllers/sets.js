@@ -29,7 +29,6 @@ const getSetsInWorkout = async (req, res) => {
             }
         })
     } catch (err) {
-        console.log(err)
         res.status(500).json({
             status: "failure"
         })
@@ -48,7 +47,6 @@ const createSet = async (req, res) => {
             exercise: results.rows[0]
         })
     } catch (err) {
-        console.log(err)
         res.status(500).json({
             status: "failure"
         })
