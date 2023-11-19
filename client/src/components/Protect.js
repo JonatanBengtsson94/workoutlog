@@ -7,7 +7,7 @@ function Protect(props) {
 
     const authenticate = async () => {
         try {
-            const response = await fetch("http://localhost:4000/login", {
+            const response = await fetch("http://localhost:4000/api/v1/login", {
                 credentials: "include"
             })
             const jsondata = await response.json()

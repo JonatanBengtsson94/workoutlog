@@ -10,7 +10,7 @@ function LoginForm() {
     const submitLogin = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://localhost:4000/login", {
+            const response = await fetch("http://localhost:4000/api/v1/login", {
                 method: "POST",
                 body: JSON.stringify({
                     username: username,

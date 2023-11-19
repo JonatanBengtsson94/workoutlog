@@ -40,8 +40,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Users
-app.use("/login", login)
-app.use("/register", register)
+app.use("/api/v1/login", login)
+app.use("/api/v1/register", register)
 
 // Exercises
 app.use("/api/v1/exercises", exercises)

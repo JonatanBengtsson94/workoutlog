@@ -21,12 +21,47 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: bodyparts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.bodyparts (
+    bodypart_id integer NOT NULL,
+    name character varying(10)
+);
+
+
+ALTER TABLE public.bodyparts OWNER TO postgres;
+
+--
+-- Name: bodyparts_bodypart_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.bodyparts_bodypart_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bodyparts_bodypart_id_seq OWNER TO postgres;
+
+--
+-- Name: bodyparts_bodypart_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.bodyparts_bodypart_id_seq OWNED BY public.bodyparts.bodypart_id;
+
+
+--
 -- Name: exercises; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.exercises (
     exercise_id integer NOT NULL,
-    name character varying(50)
+    name character varying(50),
+    bodypart_id integer
 );
 
 
@@ -53,6 +88,19 @@ ALTER TABLE public.exercises_exercise_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.exercises_exercise_id_seq OWNED BY public.exercises.exercise_id;
 
+
+--
+-- Name: session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.session (
+    sid character varying NOT NULL,
+    sess json NOT NULL,
+    expire timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.session OWNER TO postgres;
 
 --
 -- Name: sets; Type: TABLE; Schema: public; Owner: postgres
@@ -163,6 +211,13 @@ ALTER SEQUENCE public.workouts_workout_id_seq OWNED BY public.workouts.workout_i
 
 
 --
+-- Name: bodyparts bodypart_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bodyparts ALTER COLUMN bodypart_id SET DEFAULT nextval('public.bodyparts_bodypart_id_seq'::regclass);
+
+
+--
 -- Name: exercises exercise_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -191,10 +246,36 @@ ALTER TABLE ONLY public.workouts ALTER COLUMN workout_id SET DEFAULT nextval('pu
 
 
 --
+-- Data for Name: bodyparts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.bodyparts (bodypart_id, name) FROM stdin;
+1	Back
+2	Chest
+3	Legs
+4	Arms
+5	Shoulders
+\.
+
+
+--
 -- Data for Name: exercises; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.exercises (exercise_id, name) FROM stdin;
+COPY public.exercises (exercise_id, name, bodypart_id) FROM stdin;
+1	Deadlift	1
+5	Pull-ups	1
+3	Benchpress	2
+2	Squat	3
+4	Hipthrusters	3
+\.
+
+
+--
+-- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.session (sid, sess, expire) FROM stdin;
 \.
 
 
@@ -223,31 +304,46 @@ COPY public.workouts (workout_id, date, user_id) FROM stdin;
 
 
 --
+-- Name: bodyparts_bodypart_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.bodyparts_bodypart_id_seq', 5, true);
+
+
+--
 -- Name: exercises_exercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercises_exercise_id_seq', 1, false);
+SELECT pg_catalog.setval('public.exercises_exercise_id_seq', 5, true);
 
 
 --
 -- Name: sets_set_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sets_set_id_seq', 1, false);
+SELECT pg_catalog.setval('public.sets_set_id_seq', 14, true);
 
 
 --
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_user_id_seq', 2, true);
 
 
 --
 -- Name: workouts_workout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.workouts_workout_id_seq', 1, false);
+SELECT pg_catalog.setval('public.workouts_workout_id_seq', 8, true);
+
+
+--
+-- Name: bodyparts bodyparts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bodyparts
+    ADD CONSTRAINT bodyparts_pkey PRIMARY KEY (bodypart_id);
 
 
 --
@@ -256,6 +352,14 @@ SELECT pg_catalog.setval('public.workouts_workout_id_seq', 1, false);
 
 ALTER TABLE ONLY public.exercises
     ADD CONSTRAINT exercises_pkey PRIMARY KEY (exercise_id);
+
+
+--
+-- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.session
+    ADD CONSTRAINT session_pkey PRIMARY KEY (sid);
 
 
 --
@@ -280,6 +384,21 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.workouts
     ADD CONSTRAINT workouts_pkey PRIMARY KEY (workout_id);
+
+
+--
+-- Name: IDX_session_expire; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
+
+
+--
+-- Name: exercises exercises_bodypart_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exercises
+    ADD CONSTRAINT exercises_bodypart_id_fkey FOREIGN KEY (bodypart_id) REFERENCES public.bodyparts(bodypart_id);
 
 
 --
