@@ -45,20 +45,22 @@ function LoginForm() {
 
     return (
         <div className="main-container">
-            <form>
+            <form className="login-form">
+                <label htmlFor={username}>Username</label>
                 <input
                     type="text" 
                     id="username" 
                     value={username}
                     onChange={e => handleChange(e.target.value, e.target.id)}>
                 </input>
+                <label htmlFor={password}>Password</label>
                 <input 
                     type="password" 
                     id="password" 
                     value={password}
                     onChange={e => handleChange(e.target.value, e.target.id)}>
                 </input>
-                <button onClick={e => submitLogin(e)}>Log in</button>
+                <button className="confirm-btn" onClick={e => submitLogin(e)}>Log in</button>
             </form>
         </div>
     )

@@ -176,3 +176,8 @@ select {
     color: white;
     padding-top: 10px;
 }
+
+.login-form label {
+    color: white;
+    padding-top: 10px;
+}
