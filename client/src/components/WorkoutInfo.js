@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import baseURL from "../apis/workoutlog"
+import WorkoutStat from "./WorkoutStat"
 
 function WorkoutInfo() {
 
@@ -43,7 +44,8 @@ function WorkoutInfo() {
                         </tr>
                     ))}
                 </tbody>
-                </table> 
+            </table>
+            {sets && <WorkoutStat sets={sets}/>}
         </div>
     )
 }
