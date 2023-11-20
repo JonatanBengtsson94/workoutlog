@@ -38,7 +38,7 @@ function WorkoutInfo() {
                 <tbody>
                     {sets && sets.map(set => (
                         <tr key={set.set_id}>
-                            <td>{set.name}</td>
+                            <td>{set.exercise}</td>
                             <td>{set.reps}</td>
                             <td>{set.weight} kg</td>
                         </tr>

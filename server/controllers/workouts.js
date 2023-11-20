@@ -20,8 +20,10 @@ const getAllWorkouts = async (req, res) => {
 const getSingleWorkout = async (req, res) => {
     try {
         const results = await pool.query(
-            "SELECT * FROM sets INNER JOIN workouts ON sets.workout_id = workouts.workout_id\
-            INNER JOIN exercises ON sets.exercise_id = exercises.exercise_id WHERE workouts.workout_id = $1"
+            "SELECT exercises.name AS exercise, sets.weight AS weight, sets.reps AS reps, bodyparts.name AS bodypart\
+            FROM sets INNER JOIN workouts ON sets.workout_id = workouts.workout_id\
+            INNER JOIN exercises ON sets.exercise_id = exercises.exercise_id\
+            INNER JOIN bodyparts ON exercises.bodypart_id = bodyparts.bodypart_id WHERE workouts.workout_id = $1"
             ,[req.params.id])
         res.status(200).json({
             status: "sucess",
