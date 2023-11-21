@@ -182,3 +182,7 @@ select {
     color: white;
     padding-top: 10px;
 }
+
+.stat-container {
+    padding-top: 20px;
+}

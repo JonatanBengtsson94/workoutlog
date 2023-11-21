@@ -1,70 +1,69 @@
-import { useState, useEffect } from "react"
-import * as d3 from "d3"
+import { useEffect } from "react"
+import { pie, arc, select, schemeCategory10 } from "d3"
 
 function WorkoutStat(props) {
 
-    const[histogram, setHistogram] = useState({})
-
     useEffect(() => {
-        createHistogram()
         createPie()
     },[])
 
-    const createHistogram = () => {
+    const createPie = () => {
+        // Histogram
         const dict = {}
         for (const set of props.sets) {
             const currCount = dict[set.bodypart] ?? 0
             dict[set.bodypart] = currCount + 1
         }
-        setHistogram(dict)
-    }   
 
-    const createPie = () => {
-        //Chart
+        // Chart
         const width = 200
         const height = 200
         const radius = 100
-        const pie= d3.pie()
-        const arc = d3.arc()
+        const pieGenerator = pie()
+        const arcGenerator = arc()
             .innerRadius(0)
             .outerRadius(radius)
 
-        const svg = d3.select("svg")
+        const svg = select("svg")
             .append("g")
             .attr("transform", `translate(${width / 2}, ${height / 2})`)
         
         svg.selectAll("path")
-            .data(pie(Object.values(histogram)))
+            .data(pieGenerator(Object.values(dict)))
             .enter()
             .append("path")
-            .attr("d", arc)
-            .attr("fill", (d, i) => d3.schemeCategory10[i])
+            .attr("d", arcGenerator)
+            .attr("fill", (d, i) => schemeCategory10[i])
 
-        //Legend
-        
-    }
+        // Legend
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width + 10}, -80)`)
 
+        const legendItems = legend.selectAll(".legend-item")
+            .data(Object.keys(dict))
+            .enter()
+            .append("g")
+            .attr("class", "legend-item")
+            .attr("transform", (d, i) => `translate(0, ${i * 20})`)
 
+        legendItems.append("rect")
+            .attr("width", 18)
+            .attr("height", 18)
+            .attr("fill", (d, i) => schemeCategory10[i])
+
+        legendItems.append("text")
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", "0.35em")
+            .text((d, i) => `${Object.keys(dict)[i]} (${Object.values(dict)[i]})`)
+        }
 
     return (
         <div className="stat-container">
-            <svg width="200" height="200">
-
-            </svg>
+            <svg width="500" height="500"></svg>
         </div>
     )
 }
 
-
-//<svg>
-//{Object.keys(histogram).map((key, index) => (
-//    <rect
-//        x={0}
-//        y={yScale(key)}
-//        width={xScale(histogram[key])}
-//        height={yScale.bandwidth()}>
-//    </rect>
-//))}
-//</svg>
 
 export default WorkoutStat
