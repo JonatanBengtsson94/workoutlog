@@ -2,7 +2,13 @@ const { pool } = require("../config/db")
 
 const getAllWorkouts = async (req, res) => {
     try {
-        const results = await pool.query("SELECT * FROM workouts")
+        let query = "SELECT * FROM workouts"
+        let values = []
+        if (req.query.from_date) {
+            query += " WHERE date > $1"
+            values.push(req.query.from_date)
+        }
+        const results = await pool.query(query, values)
         res.status(200).json({
             status: "sucess",
             results: results.rows.length,
