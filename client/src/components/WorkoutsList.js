@@ -25,8 +25,7 @@ function WorkoutsList() {
 
     return (
         <div className="main-container">
-            <button className="confirm-btn" onClick={() => navigate("/logworkout")}>Log new workout</button>
-            <h4 className="sub-title">Workouts</h4>
+            <h4 className="sub-title">My workouts</h4>
             <div className="workouts-div">
                 <ul>
                     {workouts && workouts.map(workout => (
@@ -37,6 +36,10 @@ function WorkoutsList() {
                         </li>
                     ))}
                 </ul>
+            </div>
+            <div className="button-div">
+                <button className="default-btn" onClick={() => navigate("/logworkout")}>Log new workout</button>
+                <button className="default-btn" onClick={() => navigate("/dashboard")}>View statistics</button>
             </div>
         </div>
     )

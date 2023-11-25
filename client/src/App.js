@@ -6,6 +6,7 @@ import AboutPage from "./routes/AboutPage"
 import LogWorkoutPage from "./routes/LogWorkoutPage"
 
 import "./styles.css"
+import DashboardPage from "./routes/DashboardPage"
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                     <Route path="workout/:id" element={<WorkoutPage />}/>
                     <Route path="/about" element={<AboutPage />}/>
                     <Route path="/logworkout" element={<LogWorkoutPage />}/>
+                    <Route path="/dashboard" element={<DashboardPage />}/>
                 </Routes>
             </BrowserRouter>
         </div>
