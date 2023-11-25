@@ -268,6 +268,11 @@ COPY public.exercises (exercise_id, name, bodypart_id) FROM stdin;
 3	Benchpress	2
 2	Squat	3
 4	Hipthrusters	3
+6	Chest flys	2
+7	Biceps curls	4
+8	Skullcrushers	4
+9	Rows	1
+10	Calf raises	3
 \.
 
 
@@ -276,6 +281,7 @@ COPY public.exercises (exercise_id, name, bodypart_id) FROM stdin;
 --
 
 COPY public.session (sid, sess, expire) FROM stdin;
+b12Jg8HAo7911zdlcfKHBxuVe1Majo6a	{"cookie":{"originalMaxAge":86400000,"expires":"2023-11-26T14:08:59.030Z","httpOnly":true,"path":"/"},"passport":{"user":3}}	2023-11-26 16:39:30
 \.
 
 
@@ -284,6 +290,36 @@ COPY public.session (sid, sess, expire) FROM stdin;
 --
 
 COPY public.sets (set_id, reps, exercise_id, workout_id, weight) FROM stdin;
+15	5	1	9	180
+16	8	3	9	100
+17	8	3	9	100
+18	5	1	9	180
+19	5	1	9	180
+20	10	5	9	10
+21	10	5	9	10
+22	10	5	9	10
+23	8	3	9	100
+24	8	3	10	100
+25	10	5	10	0
+26	8	3	10	100
+27	12	6	10	18
+28	8	3	10	100
+29	8	5	10	0
+30	8	5	10	0
+31	11	6	10	18
+32	12	6	10	9
+33	10	6	10	9
+34	10	9	11	93
+35	8	3	11	100
+36	10	9	11	93
+37	6	3	11	100
+38	10	10	11	9
+39	8	3	11	100
+40	10	9	11	93
+41	8	5	11	0
+42	10	10	11	9
+43	8	5	11	0
+44	13	10	11	6
 \.
 
 
@@ -292,6 +328,7 @@ COPY public.sets (set_id, reps, exercise_id, workout_id, weight) FROM stdin;
 --
 
 COPY public.users (user_id, username, hash, salt) FROM stdin;
+3	Jonatan	3912fa1c96b1c21757a3a013c140516889025f113f75313dff2e60e1f3fb6254d292e78d7a5de15b6bc2c9a83027484226ee32bba46cee410020ed59ed3ba1e3	8b87630e02a14dbc72729466fa7ca4df91238a4af714a768f9abf563d94485c6
 \.
 
 
@@ -300,6 +337,9 @@ COPY public.users (user_id, username, hash, salt) FROM stdin;
 --
 
 COPY public.workouts (workout_id, date, user_id) FROM stdin;
+9	2023-11-19	3
+10	2023-11-16	3
+11	2023-11-11	3
 \.
 
 
@@ -314,28 +354,28 @@ SELECT pg_catalog.setval('public.bodyparts_bodypart_id_seq', 5, true);
 -- Name: exercises_exercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercises_exercise_id_seq', 5, true);
+SELECT pg_catalog.setval('public.exercises_exercise_id_seq', 10, true);
 
 
 --
 -- Name: sets_set_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sets_set_id_seq', 14, true);
+SELECT pg_catalog.setval('public.sets_set_id_seq', 44, true);
 
 
 --
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 2, true);
+SELECT pg_catalog.setval('public.users_user_id_seq', 3, true);
 
 
 --
 -- Name: workouts_workout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.workouts_workout_id_seq', 8, true);
+SELECT pg_catalog.setval('public.workouts_workout_id_seq', 11, true);
 
 
 --

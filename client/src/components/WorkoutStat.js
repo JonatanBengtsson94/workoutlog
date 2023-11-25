@@ -15,6 +15,10 @@ function WorkoutStat(props) {
             dict[set.bodypart] = currCount + 1
         }
 
+        // Clear out previous svg
+        select("svg").selectAll("*").remove()
+        
+
         // Chart
         const width = 200
         const height = 200
