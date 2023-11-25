@@ -5,7 +5,7 @@ function WorkoutStat(props) {
 
     useEffect(() => {
         createPie()
-    },[])
+    })
 
     const createPie = () => {
         // Histogram
