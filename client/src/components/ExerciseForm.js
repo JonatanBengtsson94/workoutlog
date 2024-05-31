@@ -2,11 +2,14 @@ import { useState } from "react"
 
 function ExerciseForm({ exercise }) {
 
+    
     const [sets, setSets] = useState([{ reps: "", weight: "" }])
 
-    const handleAddSet = () => {
+    const addSet = (e) => {
+        e.preventDefault()
         setSets([...sets, { reps: "", weight: "" }])
     }
+    
 
     const handleRemoveSet = (e, index) => {
         e.preventDefault()
@@ -27,7 +30,7 @@ function ExerciseForm({ exercise }) {
 
     return (
         <div className="main-container">
-            <h4 className="sub-title">{exercise}</h4>
+            <h4 className="sub-title">{exercise.name}</h4>
             <div className="exercise-container">
                 <h5 className="header">Reps</h5>
                 <h5 className="header">Weight</h5>
@@ -50,7 +53,7 @@ function ExerciseForm({ exercise }) {
                     </div>
                 ))}
             </div>
-            <button className="confirm-btn" onClick={handleAddSet}>Add set</button>
+            <button className="confirm-btn" onClick={(e) => addSet(e)}>Add set</button>
         </div>
     )
 }

@@ -1,49 +1,76 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import baseURL from "../apis/workoutlog"
+import ExerciseForm from "./ExerciseForm.js"
 
 function WorkoutForm() {
 
-    const [sets, setSets] = useState([{ exercise: "", reps: "", weight: "" }])
+    const [exerciseTypes, setExerciseTypes] = useState([])
     const [exercises, setExercises] = useState([])
-    const [workoutDate, setWorkoutDate] = useState()
-    const navigate = useNavigate()
+    const [selectedExerciseType, setSelectedExerciseType] = useState()
+    const [selectionIsOpen, setSelectionIsOpen] = useState(false)
 
-    const getExercises = async () => {
+    const updateSets = (excerciseId, sets) => {
+        console.log(excerciseId)
+        console.log(sets)
+    }
+
+    const getExerciseTypes = async () => {
         try {
             const response = await fetch(`${baseURL}/exercises`)
             const jsondata = await response.json()
-            setExercises(jsondata.data.exercises)
+            setExerciseTypes(jsondata.data.exercises)
         } catch (err) {
             console.log(err)
         }
     }
 
     useEffect(() => {
-        getExercises()
+        getExerciseTypes()
     }, [])
 
-    const handleAddSet = () => {
-        setSets([...sets, { exercise: "", reps: "", weight: "" }])
+    const addExercise = (exercise) => {
+        setExercises([...exercises, exercise])
     }
 
-    const handleRemoveSet = (e, index) => {
-        e.preventDefault()
-        setSets(prevState => {
-            const updatedSets = [...prevState]
-            updatedSets.splice(index, 1)
-            return updatedSets
-        })
+    const handleSelect = (e) => {
+        addExercise(JSON.parse(e.target.value))
+        setSelectionIsOpen(false)
     }
 
-    const handleChange = (index, key, value) => {
-        setSets(prevState => {
-            const updatedSets = [...prevState]
-            updatedSets[index][key] = value
-            return updatedSets
-        })
-    }
 
+    return (
+        <div className="main-container">
+            {!selectionIsOpen && 
+                <button className="confirm-btn" onClick={() => setSelectionIsOpen(true)}>
+                    Add Exercise
+                </button>
+            }
+            {selectionIsOpen &&
+                <select onChange={handleSelect}>
+                    {exerciseTypes.map(exerciseType => (
+                        <option 
+                            key={exerciseType.exercise_id} 
+                            value={JSON.stringify(exerciseType)}
+                    >
+                            {exerciseType.name}
+                        </option>
+                    ))}
+                </select>
+            }
+            <form>
+                {exercises.map((exercise) => (
+                    <div key={exercise.exercise_id} className="exercise-input-div">
+                       <ExerciseForm exercise={exercise} /> 
+                    </div>
+                ))}
+            </form>
+        </div>
+    )
+}
+
+export default WorkoutForm
+
+    /*
     const submitSets = async (id) => {
         try {
             sets.forEach(async set => {
@@ -87,11 +114,11 @@ function WorkoutForm() {
             console.log(err)
         }
     }
-
-    return (
+*/
+        /*
         <div className="main-container">
             <button className="confirm-btn" onClick={handleAddSet}>Add set</button>
-            <h4 className="sub-title">Sets in workout</h4>
+            <h4 className="sub-title">Sets in workout</h4>:
             <form>
                 {sets.map((set, index) => (
                     <div key={index} className ="exercise-input-div">
@@ -133,7 +160,4 @@ function WorkoutForm() {
                 <button className="confirm-btn" onClick={e => submitWorkout(e)}>Save workout</button>
             </form>
         </div>
-    )
-}
-
-export default WorkoutForm
+    */
