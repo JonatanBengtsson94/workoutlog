@@ -7,7 +7,7 @@ This is a webapp for logging workouts and tracking progress
 - RESTful API
 - Persistent Storage
 
-## Techonology Stack
+## Technology Stack
 - Front End: React
 - Back End: Node.js
 - Database: PostgreSQL
